@@ -1,44 +1,49 @@
 //Prroxy
 
 class User {
-    let id = "123"
+    
+    let name = "Alexey"
+    let password = "123"
+    
 }
 
 protocol ServerProtocol {
     
     func grantAccess(user: User)
     
-    func denyAccess(user: User)
-    
 }
 
 class ServerSide: ServerProtocol {
     
     func grantAccess(user: User) {
-        print("Access for user(id: \(user.id)) has been grannted")
-    }
-    
-    func denyAccess(user: User) {
-        print("Access for user(id: \(user.id)) has been denied")
+        print("Access for user(name: \(user.name)) has been grannted")
     }
     
 }
 
 class ServerProxy: ServerProtocol {
     
-    lazy private var server: ServerSide = ServerSide()
+    private var _server: ServerSide!
     
     func grantAccess(user: User) {
-        server.grantAccess(user: user)
+        guard _server != nil else {
+            print("Access can't be granted")
+            return
+        }
+        _server.grantAccess(user: user)
     }
     
-    func denyAccess(user: User) {
-        server.denyAccess(user: user)
+    func authenticate(user: User) {
+        guard user.password == "123" else { return }
+        print("User \(user.name) has been authenticated")
+        _server = ServerSide()
     }
     
 }
 
 let user = User()
 let proxy = ServerProxy()
+
 proxy.grantAccess(user: user)
-proxy.denyAccess(user: user)
+proxy.authenticate(user: user)
+proxy.grantAccess(user: user)
