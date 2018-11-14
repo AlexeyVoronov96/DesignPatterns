@@ -6,6 +6,8 @@ class Safe {
     
     var money = 0
     
+    private init() {}
+    
 }
 
 class Money {
