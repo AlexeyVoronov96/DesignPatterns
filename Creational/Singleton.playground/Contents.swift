@@ -18,8 +18,12 @@ class Money {
     }
     
     func take(money: Int) {
-        Safe.shared.money -= money
-        print("You've taken \(money)$ from your safe. There is \(Safe.shared.money)$ in it")
+        if Safe.shared.money >= money {
+            Safe.shared.money -= money
+            print("You've taken \(money)$ from your safe. There is \(Safe.shared.money)$ in it")
+        } else {
+            print("Not enough money")
+        }
     }
     
 }
